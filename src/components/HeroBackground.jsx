@@ -1,4 +1,31 @@
+import { useState, useEffect } from 'react'
+
 function HeroBackground() {
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  // Determinar cuántos elementos mostrar según el tamaño de pantalla
+  const getElementCount = () => {
+    if (windowWidth < 640) {
+      // Mobile: menos elementos
+      return { naranjas: 6, zanahorias: 5, lechugas: 5 }
+    } else if (windowWidth < 1024) {
+      // Tablet: cantidad media
+      return { naranjas: 10, zanahorias: 9, lechugas: 9 }
+    } else {
+      // Desktop: todos los elementos
+      return { naranjas: 18, zanahorias: 17, lechugas: 17 }
+    }
+  }
+
   // Iconos SVG minimalistas - solo naranja, zanahoria y lechuga
   const crearHuevo = (size, opacity) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 120" width={size} height={size} fill="none" style={{ opacity }}>
@@ -100,9 +127,10 @@ function HeroBackground() {
 
   // Generar múltiples instancias con diferentes tamaños y posiciones
   const elementos = []
+  const counts = getElementCount()
 
-  // Naranjas - diferentes tamaños y opacidades
-  const naranjas = [
+  // Naranjas - diferentes tamaños y opacidades (todos los disponibles)
+  const todasNaranjas = [
     { size: 45, opacity: 0.18, top: '8%', left: '3%', rotate: '12deg' },
     { size: 60, opacity: 0.15, top: '15%', right: '5%', rotate: '-18deg' },
     { size: 50, opacity: 0.20, top: '25%', left: '8%', rotate: '25deg' },
@@ -123,8 +151,8 @@ function HeroBackground() {
     { size: 53, opacity: 0.16, top: '85%', left: '35%', rotate: '-8deg' },
   ]
 
-  // Zanahorias - diferentes tamaños y opacidades
-  const zanahorias = [
+  // Zanahorias - diferentes tamaños y opacidades (todos los disponibles)
+  const todasZanahorias = [
     { size: 50, opacity: 0.18, top: '10%', left: '12%', rotate: '-15deg' },
     { size: 65, opacity: 0.16, top: '22%', right: '7%', rotate: '20deg' },
     { size: 55, opacity: 0.19, top: '32%', left: '5%', rotate: '-25deg' },
@@ -144,8 +172,8 @@ function HeroBackground() {
     { size: 55, opacity: 0.18, top: '88%', left: '42%', rotate: '-9deg' },
   ]
 
-  // Lechugas - diferentes tamaños y opacidades
-  const lechugas = [
+  // Lechugas - diferentes tamaños y opacidades (todos los disponibles)
+  const todasLechugas = [
     { size: 60, opacity: 0.20, top: '6%', left: '18%', rotate: '15deg' },
     { size: 70, opacity: 0.18, top: '20%', right: '15%', rotate: '-20deg' },
     { size: 65, opacity: 0.19, top: '30%', left: '15%', rotate: '25deg' },
@@ -164,6 +192,11 @@ function HeroBackground() {
     { size: 61, opacity: 0.16, top: '4%', left: '38%', rotate: '-8deg' },
     { size: 67, opacity: 0.17, top: '86%', left: '48%', rotate: '9deg' },
   ]
+
+  // Seleccionar solo los elementos necesarios según el tamaño de pantalla
+  const naranjas = todasNaranjas.slice(0, counts.naranjas)
+  const zanahorias = todasZanahorias.slice(0, counts.zanahorias)
+  const lechugas = todasLechugas.slice(0, counts.lechugas)
 
   // Combinar todos los elementos
   naranjas.forEach((item, index) => {
