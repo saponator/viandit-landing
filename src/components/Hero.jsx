@@ -1,11 +1,14 @@
+import HeroBackground from './HeroBackground'
+
 function Hero() {
   const scrollToSection = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <section className="bg-viandit-orange text-white min-h-screen flex flex-col justify-center items-center px-6 py-16">
-      <div className="max-w-4xl mx-auto text-center">
+    <section className="bg-viandit-orange text-white min-h-screen flex flex-col justify-center items-center px-6 py-16 relative overflow-hidden">
+      <HeroBackground />
+      <div className="max-w-4xl mx-auto text-center relative z-10">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
           Viandit
         </h1>
