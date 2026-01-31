@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'viandit-orange': '#FF6B35',
+        'viandit-orange': '#21c36b',
         'viandit-black': '#1A1A1A',
       },
     },
